@@ -1,0 +1,33 @@
+table Dim_Channel
+	lineageTag: 8dfcaabf-5a81-4faf-80f1-3bd09e3d5005
+
+	column ChannelKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3299fbdf-43bf-419d-894f-6daab91f5286
+		summarizeBy: none
+		sourceColumn: ChannelKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelName
+		dataType: string
+		lineageTag: 55440933-8dc9-48c0-b29c-072587d60caf
+		summarizeBy: none
+		sourceColumn: ChannelName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Channel = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\Portfolio\github\github projects\Eng.Sameh Bootcamp\jop posts\henkel\Henkel_Market_Intelligence_Dataset_100K.xlsx"), null, true),
+				    Dim_Channel_Sheet = Source{[Item="Dim_Channel",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Channel_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ChannelKey", Int64.Type}, {"ChannelName", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

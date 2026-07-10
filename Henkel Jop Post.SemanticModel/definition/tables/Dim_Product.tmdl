@@ -1,0 +1,49 @@
+table Dim_Product
+	lineageTag: 02bd8073-b389-4534-82cc-3187cd5cd696
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 8e3eb9f5-283a-4978-af73-5df8d62de69f
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 2715d5f3-6ff4-4616-aff0-2856df760d96
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 22c6618a-7fbf-4668-ad4b-9bb8a48aa89e
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category
+		dataType: string
+		lineageTag: 31e27716-4d0c-4884-815c-58a19d170a44
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Product = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\Portfolio\github\github projects\Eng.Sameh Bootcamp\jop posts\henkel\Henkel_Market_Intelligence_Dataset_100K.xlsx"), null, true),
+				    Dim_Product_Sheet = Source{[Item="Dim_Product",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Product_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductKey", Int64.Type}, {"ProductName", type text}, {"Brand", type text}, {"Category", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

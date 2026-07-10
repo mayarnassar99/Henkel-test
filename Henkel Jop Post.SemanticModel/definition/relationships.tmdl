@@ -1,0 +1,84 @@
+relationship AutoDetected_3d7f47c1-704b-43e6-9d0b-849412fd677d
+	fromColumn: Fact_Pricing.ChannelKey
+	toColumn: Dim_Channel.ChannelKey
+
+relationship AutoDetected_388720a7-2080-4269-9076-127c6b916247
+	fromColumn: Fact_Profitability.ChannelKey
+	toColumn: Dim_Channel.ChannelKey
+
+relationship AutoDetected_f7275b24-64fb-41d5-a287-ea80b3732336
+	fromColumn: Fact_Promotion.ChannelKey
+	toColumn: Dim_Channel.ChannelKey
+
+relationship AutoDetected_0650bdd3-b944-4b01-83b6-0475b7fe9b57
+	fromColumn: Fact_Sales.ChannelKey
+	toColumn: Dim_Channel.ChannelKey
+
+relationship AutoDetected_2d72e20c-ace2-43b4-a25e-ecba0896a27b
+	fromColumn: Fact_Profitability.CustomerKey
+	toColumn: Dim_Customer.CustomerKey
+
+relationship AutoDetected_ad23a9f9-2254-46cf-8d71-920700008bd5
+	fromColumn: Fact_Sales.CustomerKey
+	toColumn: Dim_Customer.CustomerKey
+
+relationship AutoDetected_ea61caf8-c6e8-4a59-ae32-f9a047da08a1
+	fromColumn: Fact_MarketShare.ProductKey
+	toColumn: Dim_Product.ProductKey
+
+relationship AutoDetected_654e71c9-557d-4ced-9ee9-1725165ac082
+	fromColumn: Fact_Pricing.ProductKey
+	toColumn: Dim_Product.ProductKey
+
+relationship AutoDetected_ba114b58-bc05-4457-9045-e1671f3e1ca7
+	fromColumn: Fact_Profitability.ProductKey
+	toColumn: Dim_Product.ProductKey
+
+relationship AutoDetected_7b257ba5-28e7-4717-868d-5fc02e06ada3
+	fromColumn: Fact_Promotion.ProductKey
+	toColumn: Dim_Product.ProductKey
+
+relationship AutoDetected_8ed4e345-5fd4-4cae-ac53-6d2b58e61406
+	fromColumn: Fact_Sales.ProductKey
+	toColumn: Dim_Product.ProductKey
+
+relationship AutoDetected_f9e25396-ceac-4c36-b70d-9c0d47a23aea
+	fromColumn: Fact_MarketShare.RegionKey
+	toColumn: Dim_Region.RegionKey
+
+relationship AutoDetected_8176664d-40f4-4509-915b-ad7560f3645e
+	fromColumn: Fact_Pricing.RegionKey
+	toColumn: Dim_Region.RegionKey
+
+relationship AutoDetected_fa6ce680-eec2-429a-8e1d-9163d8b2eb5c
+	fromColumn: Fact_Profitability.RegionKey
+	toColumn: Dim_Region.RegionKey
+
+relationship AutoDetected_c4b606fb-0d9c-4f3a-935d-89a4b860bfe6
+	fromColumn: Fact_Promotion.RegionKey
+	toColumn: Dim_Region.RegionKey
+
+relationship AutoDetected_5034fab4-2f3d-4de8-9f2c-8b09067935d0
+	fromColumn: Fact_Sales.RegionKey
+	toColumn: Dim_Region.RegionKey
+
+relationship AutoDetected_f4100721-0719-4142-84d5-0b15f158bb0c
+	fromColumn: Fact_MarketShare.DateKey
+	toColumn: Dim_Time.DateKey
+
+relationship AutoDetected_c0e1291e-9044-4b4e-b744-6d14fa0d20b8
+	fromColumn: Fact_Pricing.DateKey
+	toColumn: Dim_Time.DateKey
+
+relationship AutoDetected_2849e65c-a9e3-416f-9688-095a5ae7d390
+	fromColumn: Fact_Profitability.DateKey
+	toColumn: Dim_Time.DateKey
+
+relationship AutoDetected_51b26560-8faa-4a4d-ac20-2510fb9eac8a
+	fromColumn: Fact_Promotion.DateKey
+	toColumn: Dim_Time.DateKey
+
+relationship AutoDetected_345dab5f-0e3f-4287-b222-5c0ff58a9e2e
+	fromColumn: Fact_Sales.DateKey
+	toColumn: Dim_Time.DateKey
+

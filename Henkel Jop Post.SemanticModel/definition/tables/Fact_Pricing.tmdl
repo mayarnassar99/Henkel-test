@@ -1,0 +1,81 @@
+table Fact_Pricing
+	lineageTag: d59901f7-3b12-4c6e-9cdd-545404421ff3
+
+	column PricingID
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b6db5a3-7c48-4164-b9f0-2391b0eb5f2e
+		summarizeBy: count
+		sourceColumn: PricingID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 910686f6-a758-4d6a-a81f-f5c1e65c4033
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: cda9a432-cf2b-444d-b7a3-5983e04c0a1f
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3bfbc55c-ac7a-48e0-b089-a2c6714649bb
+		summarizeBy: none
+		sourceColumn: ChannelKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b3b2bced-b376-436b-b412-69e9e10fb8eb
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCost
+		dataType: double
+		lineageTag: 1c4c2d6e-06a5-4124-93ab-583564eb64ca
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnitPrice
+		dataType: double
+		lineageTag: 043de629-a0e3-4e31-8a0d-5500c44f390f
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_Pricing = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\Portfolio\github\github projects\Eng.Sameh Bootcamp\jop posts\henkel\Henkel_Market_Intelligence_Dataset_100K.xlsx"), null, true),
+				    Fact_Pricing_Sheet = Source{[Item="Fact_Pricing",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_Pricing_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PricingID", Int64.Type}, {"DateKey", Int64.Type}, {"ProductKey", Int64.Type}, {"ChannelKey", Int64.Type}, {"RegionKey", Int64.Type}, {"UnitCost", type number}, {"UnitPrice", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

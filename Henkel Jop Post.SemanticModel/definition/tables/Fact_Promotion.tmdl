@@ -1,0 +1,88 @@
+table Fact_Promotion
+	lineageTag: 767e5f74-1d80-43dd-96b8-ec2aa70d0651
+
+	column PromotionID
+		dataType: int64
+		formatString: 0
+		lineageTag: eb0f43ac-41ce-48f8-a8b1-830898828bac
+		summarizeBy: count
+		sourceColumn: PromotionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 5d8db625-23bb-4217-8c4d-ec7e816eb835
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ce6ab0a-8754-4acd-bbaa-54db23200732
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelKey
+		dataType: int64
+		formatString: 0
+		lineageTag: c4b73f43-8b9b-4f50-8388-b0fa1ccff234
+		summarizeBy: none
+		sourceColumn: ChannelKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 10474c3f-7d80-47fb-abbe-ebf5d4ad254a
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesValue
+		dataType: double
+		lineageTag: b87ee980-0792-4dc0-8184-f2dbbc7ce43d
+		summarizeBy: sum
+		sourceColumn: SalesValue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesVolume
+		dataType: int64
+		formatString: 0
+		lineageTag: dcc142c7-68b8-443e-a46f-5c9f93e56c9d
+		summarizeBy: sum
+		sourceColumn: SalesVolume
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionType
+		dataType: string
+		lineageTag: 828fce5a-863e-4c11-8227-7d2333eeb445
+		summarizeBy: none
+		sourceColumn: PromotionType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Fact_Promotion = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\Portfolio\github\github projects\Eng.Sameh Bootcamp\jop posts\henkel\Henkel_Market_Intelligence_Dataset_100K.xlsx"), null, true),
+				    Fact_Promotion_Sheet = Source{[Item="Fact_Promotion",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_Promotion_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PromotionID", Int64.Type}, {"DateKey", Int64.Type}, {"ProductKey", Int64.Type}, {"ChannelKey", Int64.Type}, {"RegionKey", Int64.Type}, {"SalesValue", type number}, {"SalesVolume", Int64.Type}, {"PromotionType", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,81 @@
+table Fact_MarketShare
+	lineageTag: 6b3cbf7a-2526-40e7-84d8-00f4547ffeaf
+
+	column MarketShareID
+		dataType: int64
+		formatString: 0
+		lineageTag: e91d37ab-690e-407b-a97c-71435561edd4
+		summarizeBy: count
+		sourceColumn: MarketShareID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 054534d7-32a1-46d5-ba89-d4726916c763
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b0cf657-822e-4c3c-a6de-d686c21afd5a
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b0e6276a-cddc-40f0-a754-89a755abc991
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesValue
+		dataType: double
+		lineageTag: 851d47f7-3ce9-4f81-9a1e-866174e84b4e
+		summarizeBy: sum
+		sourceColumn: SalesValue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SalesVolume
+		dataType: int64
+		formatString: 0
+		lineageTag: ceb0461c-bd49-4808-b24e-c32ba7bd4c9a
+		summarizeBy: sum
+		sourceColumn: SalesVolume
+
+		annotation SummarizationSetBy = Automatic
+
+	column MarketSharePct
+		dataType: double
+		lineageTag: 6cab98d7-5139-4f06-bad1-7ed67baf1e54
+		summarizeBy: sum
+		sourceColumn: MarketSharePct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_MarketShare = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\Portfolio\github\github projects\Eng.Sameh Bootcamp\jop posts\henkel\Henkel_Market_Intelligence_Dataset_100K.xlsx"), null, true),
+				    Fact_MarketShare_Sheet = Source{[Item="Fact_MarketShare",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_MarketShare_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"MarketShareID", Int64.Type}, {"DateKey", Int64.Type}, {"ProductKey", Int64.Type}, {"RegionKey", Int64.Type}, {"SalesValue", type number}, {"SalesVolume", Int64.Type}, {"MarketSharePct", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

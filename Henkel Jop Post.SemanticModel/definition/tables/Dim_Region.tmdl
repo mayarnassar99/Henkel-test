@@ -1,0 +1,41 @@
+table Dim_Region
+	lineageTag: 24e872a0-7a70-4286-9ad3-56cdc47f433f
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 24f1a2e0-e22a-4779-9e66-b8090f7f2683
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Market
+		dataType: string
+		lineageTag: 680ddf3e-b1fd-40eb-a530-8051a8cdd0a6
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 521ea6ec-1405-4897-bfde-aa4539c09e75
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Region = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\Portfolio\github\github projects\Eng.Sameh Bootcamp\jop posts\henkel\Henkel_Market_Intelligence_Dataset_100K.xlsx"), null, true),
+				    Dim_Region_Sheet = Source{[Item="Dim_Region",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Region_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"RegionKey", Int64.Type}, {"Market", type text}, {"Region", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

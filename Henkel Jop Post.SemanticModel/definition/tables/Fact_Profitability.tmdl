@@ -1,0 +1,110 @@
+table Fact_Profitability
+	lineageTag: a678d3a3-0995-45cb-bbe1-08287e7c51b6
+
+	column ProfitabilityID
+		dataType: int64
+		formatString: 0
+		lineageTag: 0973b64a-9d6c-4ca8-928a-32377e5236b4
+		summarizeBy: count
+		sourceColumn: ProfitabilityID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 0f37a8f0-5caa-4c0b-a90f-353f7294237c
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 04da6e5a-3bbe-4fbe-bb0f-1c0a0f899d66
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a9afb62-a301-4a63-aa33-2c49d65105e7
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 589ae41f-4908-41dc-b85a-8f0238e91846
+		summarizeBy: none
+		sourceColumn: ChannelKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: d265beb6-a783-448d-9bce-b8f847381356
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesValue
+		dataType: double
+		lineageTag: 755f6659-634d-4ffc-bf2e-5039c5c825c2
+		summarizeBy: sum
+		sourceColumn: SalesValue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnitCost
+		dataType: double
+		lineageTag: c913cdf2-5f5f-4d67-b8f1-1b9470f85146
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Profitability
+		dataType: double
+		lineageTag: 1ebd878a-8e28-4a89-b506-a9735470f766
+		summarizeBy: sum
+		sourceColumn: Profitability
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ChannelTurnover
+		dataType: double
+		lineageTag: 0b2a4535-d5ea-4f0a-b469-15a99dedf8ca
+		summarizeBy: sum
+		sourceColumn: ChannelTurnover
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Fact_Profitability = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\Portfolio\github\github projects\Eng.Sameh Bootcamp\jop posts\henkel\Henkel_Market_Intelligence_Dataset_100K.xlsx"), null, true),
+				    Fact_Profitability_Sheet = Source{[Item="Fact_Profitability",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Fact_Profitability_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProfitabilityID", Int64.Type}, {"DateKey", Int64.Type}, {"ProductKey", Int64.Type}, {"CustomerKey", Int64.Type}, {"ChannelKey", Int64.Type}, {"RegionKey", Int64.Type}, {"SalesValue", type number}, {"UnitCost", type number}, {"Profitability", type number}, {"ChannelTurnover", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

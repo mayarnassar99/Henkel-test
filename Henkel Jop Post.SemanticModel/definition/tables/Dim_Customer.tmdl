@@ -1,0 +1,41 @@
+table Dim_Customer
+	lineageTag: 5113293d-21c0-4724-b112-45ed56344678
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 46100726-9da1-4a1b-8300-0cdf2ad1b469
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerName
+		dataType: string
+		lineageTag: c1f973ed-e106-4a7d-bed5-4f02364ee651
+		summarizeBy: none
+		sourceColumn: CustomerName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerType
+		dataType: string
+		lineageTag: d6e0e0d1-55f1-4499-9fff-9e7b6bf88ee0
+		summarizeBy: none
+		sourceColumn: CustomerType
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Dim_Customer = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\Portfolio\github\github projects\Eng.Sameh Bootcamp\jop posts\henkel\Henkel_Market_Intelligence_Dataset_100K.xlsx"), null, true),
+				    Dim_Customer_Sheet = Source{[Item="Dim_Customer",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Dim_Customer_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerKey", Int64.Type}, {"CustomerName", type text}, {"CustomerType", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
